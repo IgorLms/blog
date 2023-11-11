@@ -3,6 +3,12 @@ from django.db import models
 from django.utils import timezone
 
 
+class PublishedPost(models.Manager):
+    """Модельный менеджер для извлечения постов со статусом опубликовано"""
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
+
 class Post(models.Model):
     """Модель поста блога"""
 
@@ -20,6 +26,9 @@ class Post(models.Model):
     update = models.DateTimeField(auto_now=True, verbose_name='Дата изменения поста')
     status = models.CharField(max_length=12, choices=Status.choices, default=Status.PUBLISHED, verbose_name='Статус поста')
 
+    objects = models.Manager()
+    published = PublishedPost()
+
     class Meta:
         """Упорядочим посты по убыванию даты публикации поста и настроим индексацию по этому полю"""
         ordering = ['-publish']
@@ -27,5 +36,3 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
-
