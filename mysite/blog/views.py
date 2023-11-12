@@ -3,13 +3,16 @@ from django.views.decorators.http import require_POST
 
 from .forms import CommentForm
 from .models import Post
-from .services.services import pagination_page, add_comment_to_post
+from .services.services import pagination_page, add_comment_to_post, post_filter_tag
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
     """Получение всех опубликованных постов с пагинацией"""
 
     posts_queryset = Post.published.all()
+
+    tag, posts_queryset = post_filter_tag(tag_slug, posts_queryset)
+
     page_number = request.GET.get('page', 1)
 
     posts = pagination_page(
