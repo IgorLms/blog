@@ -54,7 +54,13 @@ def post_comment(request, post_id, comment=None):
                              id=post_id,
                              status=Post.Status.PUBLISHED)
 
-    form = CommentForm(data=request.POST)
+    comment_post = request.POST.copy()
+
+    if request.user.is_authenticated:
+        comment_post['name'] = request.user.username
+        comment_post['email'] = request.user.email
+
+    form = CommentForm(data=comment_post)
 
     if form.is_valid():
         comment = add_comment_to_post(form, post)

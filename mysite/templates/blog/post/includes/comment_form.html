@@ -1,6 +1,19 @@
 <h2>Добавить новый комментарий</h2>
 <form action="{% url 'blog:post_comment' post.id %}" method="post">
-    {{ form.as_p }}
     {% csrf_token %}
+    {% if not user.is_authenticated %}
+        <p>
+            {{ form.name.label_tag }}<br>
+            {{ form.name }}
+        </p>
+        <p>
+            {{ form.email.label_tag }}<br>
+            {{ form.email }}
+        </p>
+    {% endif %}
+        <p>
+            {{ form.body.label_tag }}<br>
+            {{ form.body}}
+        </p>
     <p><input type="submit" value="Добавить комментарий"></p>
 </form>
