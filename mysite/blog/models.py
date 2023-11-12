@@ -50,3 +50,27 @@ class Post(models.Model):
                 self.slug
             ]
         )
+
+
+class Comment(models.Model):
+    """Модель комментария для поста"""
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', verbose_name='Пост')
+
+    name = models.CharField(max_length=80, verbose_name='Имя комментатора')
+    email = models.EmailField(verbose_name='Почта комментатора')
+    body = models.TextField(verbose_name='Комментарий')
+
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания комментария')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Дата изменения комментария')
+
+    active = models.BooleanField(default=True, verbose_name='Статус комментария')
+
+    class Meta:
+        ordering = ['created']
+        indexes = [
+            models.Index(fields=['created']),
+        ]
+
+    def __str__(self):
+        return f'Комментарий {self.name} под постом {self.post}'
