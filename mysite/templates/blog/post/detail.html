@@ -7,6 +7,14 @@
         Опубликовано {{ post.publish }} пользователем {{ post.author }}
     </p>
     {{ post.body|linebreaks }}
+    <h2>Схожие посты</h2>
+    {% for post in similar_posts %}
+        <p>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </p>
+    {% empty %}
+        Подобных постов пока нет.
+    {% endfor %}
     {% with comments.count as total_comments %}
         <h2>
             {{ total_comments|ru_plural:"комментарий,комментария,комментариев" }}

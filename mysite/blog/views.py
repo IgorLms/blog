@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 
 from .forms import CommentForm
 from .models import Post
-from .services.services import pagination_page, add_comment_to_post, post_filter_tag
+from .services.services import pagination_page, add_comment_to_post, post_filter_tag, list_of_similar_posts
 
 
 def post_list(request, tag_slug=None):
@@ -36,9 +36,12 @@ def post_detail(request, year, month, day, post):
 
     comments = post.comments.filter(active=True)
 
+    similar_posts = list_of_similar_posts(post, 4)
+
     context = {'post': post,
                'comments': comments,
-               'form': CommentForm()}
+               'form': CommentForm(),
+               'similar_posts': similar_posts}
     return render(request, 'blog/post/detail.html', context)
 
 

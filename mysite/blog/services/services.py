@@ -1,7 +1,7 @@
 from typing import Optional
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Count
 from django.shortcuts import get_object_or_404
 from taggit.models import Tag
 
@@ -41,3 +41,13 @@ def post_filter_tag(tag_slug: Optional[str], posts_queryset: QuerySet, tag=None)
         posts_queryset = posts_queryset.filter(tags__in=[tag])
 
     return tag, posts_queryset
+
+
+def list_of_similar_posts(post: Post, num_of_post: int) -> Post:
+    """Получение схожих постов"""
+
+    post_tags_ids = post.tags.values_list('id', flat=True)
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.pk)
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:num_of_post]
+
+    return similar_posts
