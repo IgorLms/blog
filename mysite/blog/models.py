@@ -34,6 +34,8 @@ class Post(models.Model):
         """Упорядочим посты по убыванию даты публикации поста и настроим индексацию по этому полю"""
         ordering = ['-publish']
         indexes = [models.Index(fields=['-publish'])]
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
 
     def __str__(self):
         return self.title
@@ -68,9 +70,9 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['created']
-        indexes = [
-            models.Index(fields=['created']),
-        ]
+        indexes = [models.Index(fields=['created'])]
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
 
     def __str__(self):
         return f'Комментарий {self.name} под постом {self.post}'
