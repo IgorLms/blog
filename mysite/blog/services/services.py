@@ -1,5 +1,6 @@
 from typing import Optional
 
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import QuerySet, Count
 from django.shortcuts import get_object_or_404
@@ -51,3 +52,26 @@ def list_of_similar_posts(post: Post, num_of_post: int) -> Post:
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:num_of_post]
 
     return similar_posts
+
+
+def search_post(query: str) -> Post:
+    """Поиск поста по заголовку и статье"""
+
+    # Поиск по нескольким полям
+    search_vector = SearchVector('title', 'body', config='russian')
+    # Выделение основы слова и ранжирование результата
+    search_query = SearchQuery(query, config='russian')
+
+    results = Post.published.annotate(
+        search=search_vector,
+        rank=SearchRank(
+            search_vector,
+            search_query
+        )
+    ).filter(
+        search=search_query
+    ).order_by(
+        '-rank'
+    )
+
+    return results

@@ -1,9 +1,10 @@
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 
-from .forms import CommentForm
+from .forms import CommentForm, SearchForm
 from .models import Post
-from .services.services import pagination_page, add_comment_to_post, post_filter_tag, list_of_similar_posts
+from .services.services import pagination_page, add_comment_to_post, post_filter_tag, list_of_similar_posts, search_post
 
 
 def post_list(request, tag_slug=None):
@@ -65,3 +66,25 @@ def post_comment(request, post_id, comment=None):
     }
 
     return render(request, 'blog/post/comment.html', context)
+
+
+def post_search(request):
+    """Поиск по заголовку и посту"""
+
+    form = SearchForm()
+    query = None
+    results = []
+
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            results = search_post(query)
+
+    context = {
+        'form': form,
+        'query': query,
+        'results': results
+    }
+    return render(request, 'blog/post/search.html', context)
