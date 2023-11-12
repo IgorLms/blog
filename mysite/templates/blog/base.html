@@ -18,6 +18,17 @@
                 Это мой блог.
                 Количество постов: {% total_posts %}.
             </p>
+            <hr>
+            {% if user.is_authenticated %}
+            Приветствую {{ user.get_full_name }}!
+            <p><a href="{% url 'logout' %}">Выход</a></p>
+            {% else %}
+            <p>Вы не авторизованы</p>
+            <a href="{% url 'login' %}">Вход</a>
+            <a href="{% url 'signup' %}">Регистрация</a>
+            {% endif %}
+            <hr>
+
             <h3>Последние посты</h3>
             {% show_latest_posts 3 %}
             <h3>Самые комментируемые посты</h3>
