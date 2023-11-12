@@ -1,12 +1,12 @@
 {% extends "blog/base.html" %}
-{% load plural_rename %}
+{% load plural_rename blog_tags %}
 {% block title %}{{ post.title }}{% endblock title %}
 {% block content %}
     <h1>{{ post.title }}</h1>
     <p class="date">
         Опубликовано {{ post.publish }} пользователем {{ post.author }}
     </p>
-    {{ post.body|linebreaks }}
+    {{ post.body|markdown }}
     <h2>Схожие посты</h2>
     {% for post in similar_posts %}
         <p>

@@ -1,5 +1,7 @@
 from django import template
 from django.db.models import Count
+from django.utils.safestring import mark_safe
+import markdown
 
 from ..models import Post
 
@@ -26,3 +28,10 @@ def show_latest_posts(count: int = 5) -> dict[str: Post]:
 
     latest_posts = Post.published.order_by('-publish')[:count]
     return {'latest_posts': latest_posts}
+
+
+@register.filter(name='markdown')
+def markdown_format(text):
+    """Переформатирование текста в формат markdown"""
+
+    return mark_safe(markdown.markdown(text))
