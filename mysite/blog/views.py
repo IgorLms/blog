@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
 
+from .forms import CommentForm
 from .models import Post
-from .services.services import pagination_page
+from .services.services import pagination_page, add_comment_to_post
 
 
 def post_list(request):
@@ -29,4 +31,31 @@ def post_detail(request, year, month, day, post):
                              publish__month=month,
                              publish__day=day)
 
-    return render(request, 'blog/post/detail.html', {'post': post})
+    comments = post.comments.filter(active=True)
+
+    context = {'post': post,
+               'comments': comments,
+               'form': CommentForm()}
+    return render(request, 'blog/post/detail.html', context)
+
+
+@require_POST
+def post_comment(request, post_id, comment=None):
+    """Добавление комментария к посту"""
+
+    post = get_object_or_404(Post,
+                             id=post_id,
+                             status=Post.Status.PUBLISHED)
+
+    form = CommentForm(data=request.POST)
+
+    if form.is_valid():
+        comment = add_comment_to_post(form, post)
+
+    context = {
+        'post': post,
+        'form': form,
+        'comment': comment
+    }
+
+    return render(request, 'blog/post/comment.html', context)
