@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'rest_framework',
     'blog_api.apps.BlogApiConfig',
-    'django_filters'
+    'django_filters',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -180,4 +181,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
 
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Проект API блога",
+    "DESCRIPTION": "Подключение API к блогу",
+    "VERSION": "1.0.0",
 }
