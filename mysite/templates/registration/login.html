@@ -23,5 +23,6 @@
         {% endfor %}
         <p><input type="submit" value="Вход"></p>
     </form>
+    <a href="{% url 'social:begin' 'github' %}">Авторизация через GitHub</a>
     <p><a href="{% url 'password_reset' %}">Сброс пароля</a></p>
 {% endblock content %}
