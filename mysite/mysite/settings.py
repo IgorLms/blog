@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'accounts.apps.AccountsConfig',
     'social_django',
-    'django_summernote'
+    'django_summernote',
+    'django_bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -158,3 +159,5 @@ AUTHENTICATION_BACKENDS = (
 # GITHUB
 SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
+
+SUMMERNOTE_THEME = 'bs5'

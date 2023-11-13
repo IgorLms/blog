@@ -2,34 +2,40 @@
 {% load plural_rename blog_tags %}
 {% block title %}{{ post.title }}{% endblock title %}
 {% block content %}
-    <h1>{{ post.title }}</h1>
-    <p class="date">
+    <h1 class="fw-bolder">{{ post.title }}</h1>
+    <p class="text-muted fst-italic mb-2 text-end">
         Опубликовано {{ post.publish }} пользователем {{ post.author }}
     </p>
-    {{ post.body|markdown|safe }}
-    <h2>Схожие посты</h2>
-    {% for post in similar_posts %}
-        <p>
-            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-        </p>
-    {% empty %}
-        Подобных постов пока нет.
-    {% endfor %}
-    {% with comments.count as total_comments %}
-        <h2>
-            {{ total_comments|ru_plural:"комментарий,комментария,комментариев" }}
-        </h2>
-    {% endwith %}
-    {% for comment in comments %}
-        <div class="comment">
-            <p class="info">
-                Комментарий {{ forloop.counter }} от {{ comment.name }}
-                {{ comment.created }}
+    {{ post.body|markdown }}
+    <div class="row card mt-2">
+        <h2>Схожие посты</h2>
+        {% for post in similar_posts %}
+            <p>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
             </p>
-            {{ comment.body|safe}}
-        </div>
-    {% empty %}
-        <p>Нет комментариев.</p>
-    {% endfor %}
+        {% empty %}
+        <p>Подобных постов пока нет.</p>
+        {% endfor %}
+    </div>
+    <div class="row card mt-2">
+        {% with comments.count as total_comments %}
+            <h2>
+                {{ total_comments|ru_plural:"комментарий,комментария,комментариев" }}
+            </h2>
+            <hr class="mt-1 mb-1"/>
+        {% endwith %}
+        {% for comment in comments %}
+            <div class="comment">
+                <p class="text-muted fst-italic mb-2">
+                    Комментарий {{ forloop.counter }} от {{ comment.name }}
+                    {{ comment.created }}
+                </p>
+                {{ comment.body|safe}}
+            </div>
+            <hr class="mt-1 mb-1"/>
+        {% empty %}
+            <p>Нет комментариев.</p>
+        {% endfor %}
+    </div>
     {% include "blog/post/includes/comment_form.html" %}
 {% endblock content %}

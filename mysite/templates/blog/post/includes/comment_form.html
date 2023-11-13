@@ -1,19 +1,18 @@
-<h2>Добавить новый комментарий</h2>
 <form action="{% url 'blog:post_comment' post.id %}" method="post">
     {% csrf_token %}
-    {% if not user.is_authenticated %}
-        <p>
-            {{ form.name.label_tag }}<br>
+    <div class="row">
+        <h3>Добавить новый комментарий</h3>
+        {% if not user.is_authenticated %}
+        <div class="col mt-2">
             {{ form.name }}
-        </p>
-        <p>
-            {{ form.email.label_tag }}<br>
+        </div>
+        <div class="col mt-2">
             {{ form.email }}
-        </p>
-    {% endif %}
-        <p>
-            {{ form.body.label_tag }}<br>
+        </div>
+        {% endif %}
+        <div class="mt-2">
             {{ form.body}}
-        </p>
-    <p><input type="submit" value="Добавить комментарий"></p>
+            <input type="submit" class="btn btn-primary mb-3"  value="Добавить комментарий">
+        </div>
+    </div>
 </form>

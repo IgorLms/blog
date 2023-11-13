@@ -7,7 +7,27 @@ from .models import Comment
 class CommentForm(forms.ModelForm):
     """Форма для ввода комментария"""
 
-    body = forms.CharField(required=True, widget=SummernoteWidget(), label='Комментарий')
+    name = forms.CharField(
+        required=True,
+        label='Имя',
+        widget=forms.TextInput(
+            attrs={"class": "form-control", 'placeholder': 'Name'}
+        )
+    )
+    email = forms.EmailField(
+        required=True,
+        label='Почта',
+        widget=forms.EmailInput(
+            attrs={"class": "form-control", 'placeholder': 'Email'}
+        )
+    )
+    body = forms.CharField(
+        required=True,
+        label='Комментарий',
+        widget=SummernoteWidget(
+            attrs={"class": "form-control", 'summernote': {'width': '100%', 'height': '300px'}}
+        )
+    )
 
     class Meta:
         model = Comment
@@ -17,4 +37,8 @@ class CommentForm(forms.ModelForm):
 class SearchForm(forms.Form):
     """Форма для поиска"""
 
-    query = forms.CharField()
+    query = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"class": "form-control mb-1", 'placeholder': 'Введите запрос'}
+        )
+    )

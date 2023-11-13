@@ -22,7 +22,7 @@ def post_list(request, tag_slug=None):
         page_number=page_number
     )
 
-    return render(request, 'blog/post/list.html', {'posts': posts})
+    return render(request, 'blog/post/list.html', {'posts': posts, 'tag': tag})
 
 
 def post_detail(request, year, month, day, post):

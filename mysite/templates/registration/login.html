@@ -2,6 +2,7 @@
 {% block title %}Логин{% endblock title %}
 {% block content %}
     <h2>Логин</h2>
+    <a href="{% url 'social:begin' 'github' %}" class="btn btn-link btn-lg active btn-block">Авторизация через GitHub</a>
     <form method="post">
         {% csrf_token %}
         {% for field in form %}
@@ -21,8 +22,7 @@
                 {% endfor %}
             </p>
         {% endfor %}
-        <p><input type="submit" value="Вход"></p>
+        <p><input type="submit" value="Вход" class="btn btn-primary btn-lg"></p>
     </form>
-    <a href="{% url 'social:begin' 'github' %}">Авторизация через GitHub</a>
     <p><a href="{% url 'password_reset' %}">Сброс пароля</a></p>
 {% endblock content %}
