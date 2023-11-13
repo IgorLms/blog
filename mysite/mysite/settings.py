@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'social_django',
     'django_summernote',
-    'django_bootstrap5'
+    'django_bootstrap5',
+    'rest_framework',
+    'blog_api.apps.BlogApiConfig'
 ]
 
 MIDDLEWARE = [
@@ -160,4 +162,12 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
 
+# Boostrap
 SUMMERNOTE_THEME = 'bs5'
+
+# DRF
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+}
