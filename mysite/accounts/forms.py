@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django_summernote.widgets import SummernoteWidget
 
 from .models import Profile
 from .services.validators import validate_email
@@ -35,7 +36,7 @@ class UpdateProfileForm(forms.ModelForm):
     """Форма позволяет пользователям обновлять свой профиль"""
 
     avatar = forms.ImageField(widget=forms.FileInput(), label='Аватар')
-    bio = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}), label='Информация о пользователе')
+    bio = forms.CharField(widget=SummernoteWidget(), label='Информация о пользователе')
 
     class Meta:
         model = Profile

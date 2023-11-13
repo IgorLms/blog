@@ -1,12 +1,15 @@
 from django.contrib import admin
 
 from .models import Post, Comment
+from django_summernote.admin import SummernoteModelAdmin
 
 
 @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(SummernoteModelAdmin):
     """Модернизируем админ-панель для таблицы Post"""
 
+    # Редактор WYSIWYG
+    summernote_fields = ('body',)
     # Горизонтальное отображение полей поста
     list_display = ['title', 'slug', 'author', 'publish', 'status']
     # Панель фильтрации
@@ -24,9 +27,10 @@ class PostAdmin(admin.ModelAdmin):
 
 
 @admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(SummernoteModelAdmin):
     """Модернизируем админ-панель для таблицы Comment"""
 
+    summernote_fields = ('body',)
     list_display = ['name', 'email', 'post', 'created', 'active']
     list_filter = ['active', 'created', 'updated']
     search_fields = ['name', 'email', 'body']

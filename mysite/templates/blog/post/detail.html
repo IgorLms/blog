@@ -6,7 +6,7 @@
     <p class="date">
         Опубликовано {{ post.publish }} пользователем {{ post.author }}
     </p>
-    {{ post.body|markdown }}
+    {{ post.body|markdown|safe }}
     <h2>Схожие посты</h2>
     {% for post in similar_posts %}
         <p>
@@ -26,7 +26,7 @@
                 Комментарий {{ forloop.counter }} от {{ comment.name }}
                 {{ comment.created }}
             </p>
-            {{ comment.body|linebreaks }}
+            {{ comment.body|safe}}
         </div>
     {% empty %}
         <p>Нет комментариев.</p>

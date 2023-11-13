@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'taggit',
     'django.contrib.postgres',
     'accounts.apps.AccountsConfig',
-    'social_django'
+    'social_django',
+    'django_summernote'
 ]
 
 MIDDLEWARE = [
