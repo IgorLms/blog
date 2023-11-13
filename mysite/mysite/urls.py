@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls', namespace='blog')),
     path("api/", include("blog_api.urls")),
+    path("api-auth/", include("rest_framework.urls")),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path('summernote/', include('django_summernote.urls')),
