@@ -1,0 +1,47 @@
+{% extends "blog/base.html" %}
+{% block title %}Профиль{% endblock title %}
+{% block content %}
+    <div>
+        <img src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+    </div>
+    {% if user_form.errors %}
+        <div role="alert">
+            <div>
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <div>
+                    <div>
+                        {{ user_form.username.label }}<br>
+                        {{ user_form.username }}
+                        <hr>
+                        {{ user_form.email.label }}<br>
+                        {{ user_form.email }}
+                    </div>
+                    <hr>
+                    <div><a href="{% url 'password_change' %}">Изменить пароль</a>
+                        <hr>
+                        {{ profile_form.avatar.label }}<br>
+                        {{ profile_form.avatar }}
+                    </div>
+                    <hr>
+                    {{ profile_form.bio.label }}<br>
+                    {{ profile_form.bio }}
+                </div>
+            </div>
+            <br><br>
+            <button type="submit">Сохранить</button>
+            <button type="reset">Перезагрузить</button>
+        </form>
+    </div>
+{% endblock content %}
